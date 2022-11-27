@@ -1,4 +1,5 @@
 # Canlı Eğitim Uygulaması - Öğrenciden
 
-[dersprojects2.1.pdf](https://github.com/suleymangunes/online_education_app_with_backend_and_mockup/files/10098360/dersprojects2.1.pdf)
+MockUp
 
+![dersprojects2 1-1](https://user-images.githubusercontent.com/62201710/204136404-a92dc8ec-c436-4f12-9092-f291ed021f78.jpg)
