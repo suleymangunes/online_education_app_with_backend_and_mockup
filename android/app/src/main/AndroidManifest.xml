@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ogrenciden_canli_egitim_uygulamasi">
    <application
-        android:label="ogrenciden_canli_egitim_uygulamasi"
+        android:label="Öğrenciden"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
