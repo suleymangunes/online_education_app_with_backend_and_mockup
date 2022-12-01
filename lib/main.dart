@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/constants/build_color.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/constants/color_constants.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/pages/intro_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,15 +13,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Material App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Material App Bar'),
-        ),
-        body: const Center(
-          child: Text('Hello World'),
-        ),
-      ),
-    );
+        title: 'Material App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
+            primarySwatch: buildMaterialColor(ColorConstants.instance.hippieGreen)),
+        home: PageViewDesign());
   }
 }

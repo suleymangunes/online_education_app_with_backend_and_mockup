@@ -38,6 +38,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_native_splash: ^2.2.16
   flutter_launcher_icons: ^0.11.0
+  smooth_page_indicator: ^1.0.0+2
+  lottie: ^2.0.0
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:
@@ -75,8 +78,10 @@ flutter:
   assets:
     - assets/images/ogrenciden_splash_orta.png
     - assets/images/ogrenciden_logo_png.png
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+    - assets/gifs/education.zip
+    - assets/gifs/start.zip
+    - assets/gifs/world.zip
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
