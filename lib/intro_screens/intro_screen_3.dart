@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/constants/color_constants.dart';
-
+import 'package:ogrenciden_canli_egitim_uygulamasi/pages/sign_in.dart';
 import '../constants/assets_size_constants.dart';
 import '../constants/sizedbox_constants.dart';
 import '../constants/string_constants.dart';
@@ -36,7 +36,7 @@ class _IntroScreen3State extends State<IntroScreen3> {
               ),
             ),
             Lottie.asset("assets/gifs/start.zip", height: AssetsConstants.instance.gifHeight),
-            Spacer(),
+            const Spacer(),
             SizedBox(
               height: Get.height * 0.05,
               width: Get.width * 0.5,
@@ -48,15 +48,19 @@ class _IntroScreen3State extends State<IntroScreen3> {
                       backgroundColor: MaterialStateProperty.all(ColorConstants.instance.hippieGreen),
                       shape:
                           MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
-                  onPressed: (() {}),
+                  onPressed: (() {
+                    Get.to(const SignIn(), duration: const Duration(milliseconds: 500));
+                  }),
                   child: Text(
-                    "BAŞLA",
-                    style: TextStyle(fontSize: Get.width * 0.06, letterSpacing: 3),
+                    StringConstants.instance.buttonStart,
+                    style: TextStyle(fontSize: StringDetailConstants.instance.titleSize, letterSpacing: 3),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 70)
+            SizedBox(
+              height: SizedboxConstans.instance.spaceBottom,
+            )
           ],
         ),
       ),
