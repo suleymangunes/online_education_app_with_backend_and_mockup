@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "84322741638",
+    "project_id": "canli-egitim-55f8a",
+    "storage_bucket": "canli-egitim-55f8a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84322741638:android:9842e5ad9304067d78d007",
+        "android_client_info": {
+          "package_name": "com.example.ogrenciden_canli_egitim_uygulamasi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84322741638-capkmu4fcc2qphpbpmtfh90sg0bd84t3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMlSra3nljlmA8ljvknCEKNnYDW2Xtkpw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84322741638-capkmu4fcc2qphpbpmtfh90sg0bd84t3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/alerts/alert_error.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/constants/color_constants.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/constants/sizedbox_constants.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/pages/Islenmis_dersler.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/pages/iptal_edilen_dersler.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/pages/olusturdugum_derslerim.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/pages/sign_in.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/service/auth_register.dart';
 
 import '../constants/string_detail_constants.dart';
 
@@ -16,6 +19,7 @@ class Profil extends StatefulWidget {
 }
 
 class _ProfilState extends State<Profil> {
+  AuthService authService = AuthService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,6 +166,44 @@ class _ProfilState extends State<Profil> {
                     children: [
                       Text(
                         "İptal Edilen Dersler",
+                        style: TextStyle(
+                          fontWeight: StringDetailConstants.instance.titleWeight,
+                          fontSize: StringDetailConstants.instance.buttonBigSize,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: Get.height * 0.08,
+            width: Get.width,
+            child: Card(
+              elevation: 3,
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              color: ColorConstants.instance.hippieGreenLight4x,
+              child: InkWell(
+                onTap: (() {
+                  authService.signOut().then((value) {
+                    Get.offAll(const SignIn());
+                  }).onError((error, stackTrace) {
+                    return showDialog(
+                      context: context,
+                      builder: (context) {
+                        return ErrorMessage(message: error);
+                      },
+                    );
+                  });
+                }),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 15, right: 30, left: 30, bottom: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Çıkış Yap",
                         style: TextStyle(
                           fontWeight: StringDetailConstants.instance.titleWeight,
                           fontSize: StringDetailConstants.instance.buttonBigSize,

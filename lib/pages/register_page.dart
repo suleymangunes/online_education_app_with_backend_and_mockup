@@ -1,8 +1,12 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/alerts/alert_succes.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/constants/color_constants.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/constants/sizedbox_constants.dart';
-import 'package:ogrenciden_canli_egitim_uygulamasi/pages/register_check_page.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/alerts/alert_error.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/pages/sign_in.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/service/auth_register.dart';
 import 'package:rive/rive.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -20,6 +24,17 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final _formkey = GlobalKey<FormState>();
   bool _butState = false;
+
+  AuthService authService = AuthService();
+
+  @override
+  void dispose() {
+    _controllerMail.dispose();
+    _controllerName.dispose();
+    _controllerPassword.dispose();
+    _controllerPasswordAgain.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +87,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Mail alanı boş bırakılamaz.";
+                      }
+                      if (EmailValidator.validate(value) == false) {
+                        return "Lütfen geçerli bir mail girin.";
                       }
                       return null;
                     },
@@ -161,19 +179,52 @@ class _RegisterPageState extends State<RegisterPage> {
                           backgroundColor: MaterialStateProperty.all(ColorConstants.instance.hippieGreen),
                           shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)))),
-                      onPressed: (() {
+                      onPressed: (() async {
                         if (_formkey.currentState!.validate()) {
                           setState(() {
                             _butState = true;
                           });
+
+                          await authService
+                              .createPerson(
+                            _controllerName.text,
+                            _controllerMail.text,
+                            _controllerPassword.text,
+                          )
+                              .then((value) {
+                            Get.offAll(const SignIn());
+                            return showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SuccesMessage(
+                                  message: 'Kaydolma isleminiz basariyla tamamlanmistir. Giris yapabilirsiniz.',
+                                  title: 'Kaydolundu',
+                                  butonText: 'Giris Yap',
+                                  fonks: () => Get.back(),
+                                );
+                              },
+                            );
+                          }).onError((error, stackTrace) {
+                            return showDialog(
+                              context: context,
+                              builder: (context) {
+                                return ErrorMessage(
+                                  message: error,
+                                );
+                              },
+                            );
+                          });
+                          setState(() {
+                            _butState = false;
+                          });
                         }
-                        Get.to(const RegisterCheck());
                       }),
                       child: _butState
                           ? SizedBox(
                               height: Get.height * 0.065,
                               width: 80,
-                              child: const RiveAnimation.asset("assets/loading.riv"))
+                              child: const RiveAnimation.asset("assets/gifs/loading.riv"),
+                            )
                           : Padding(
                               padding: EdgeInsets.symmetric(horizontal: Get.width * 0.04, vertical: Get.width * 0.040),
                               child: Text(
@@ -195,14 +246,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       style: TextStyle(fontSize: Get.width * 0.03),
                     ),
                     TextButton(
-                        onPressed: (() {
-                          Get.back();
-                        }),
-                        child: Text(
-                          "Hemen Giriş Yap",
-                          style:
-                              TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: Get.width * 0.03),
-                        ))
+                      onPressed: (() {
+                        Get.back();
+                      }),
+                      child: Text(
+                        "Hemen Giriş Yap",
+                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: Get.width * 0.03),
+                      ),
+                    )
                   ],
                 ),
               ],

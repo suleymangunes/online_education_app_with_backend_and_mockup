@@ -1,5 +1,7 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/alerts/alert_error.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/constants/color_constants.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/constants/padding_constants.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/constants/sizedbox_constants.dart';
@@ -7,6 +9,7 @@ import 'package:ogrenciden_canli_egitim_uygulamasi/constants/string_detail_const
 import 'package:ogrenciden_canli_egitim_uygulamasi/pages/forgot_password_page.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/pages/home_page.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/pages/register_page.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/service/auth_register.dart';
 import 'package:rive/rive.dart';
 
 class SignIn extends StatefulWidget {
@@ -21,6 +24,8 @@ class _SignInState extends State<SignIn> {
   final TextEditingController _controllerMail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   bool _butstate = false;
+
+  AuthService authService = AuthService();
 
   @override
   void dispose() {
@@ -61,6 +66,9 @@ class _SignInState extends State<SignIn> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Mail alanı boş bırakılamaz.";
+                      }
+                      if (EmailValidator.validate(value) == false) {
+                        return "Lütfen geçerli bir mail girin.";
                       }
                       return null;
                     },
@@ -108,16 +116,30 @@ class _SignInState extends State<SignIn> {
                           backgroundColor: MaterialStateProperty.all(ColorConstants.instance.hippieGreen),
                           shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)))),
-                      onPressed: (() {
+                      onPressed: (() async {
                         if (_formkey.currentState!.validate()) {
                           setState(() {
                             _butstate = true;
                           });
+                          await authService
+                              .signIn(
+                            _controllerMail.text,
+                            _controllerPassword.text,
+                          )
+                              .then((value) {
+                            Get.offAll(const HomePage());
+                          }).onError((error, stackTrace) {
+                            return showDialog(
+                              context: context,
+                              builder: (context) {
+                                return ErrorMessage(message: error);
+                              },
+                            );
+                          });
                         }
                         setState(() {
-                          _butstate = true;
+                          _butstate = false;
                         });
-                        Get.to(const HomePage());
                       }),
                       child: _butstate
                           ? SizedBox(
