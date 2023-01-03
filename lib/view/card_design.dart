@@ -5,11 +5,26 @@ import 'package:ogrenciden_canli_egitim_uygulamasi/constants/string_detail_const
 import 'package:ogrenciden_canli_egitim_uygulamasi/pages/enter_lesson_page.dart';
 import '../constants/color_constants.dart';
 
-class CardDesign extends StatelessWidget {
+class CardDesign extends StatefulWidget {
   const CardDesign({
     Key? key,
+    required this.ogretmenisim,
+    required this.dersicerigi,
+    required this.dersadi,
+    required this.dersid,
+    required this.ogretmenid,
   }) : super(key: key);
 
+  final String ogretmenisim;
+  final String dersicerigi;
+  final String dersadi;
+  final String dersid;
+  final String ogretmenid;
+  @override
+  State<CardDesign> createState() => _CardDesignState();
+}
+
+class _CardDesignState extends State<CardDesign> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -21,14 +36,15 @@ class CardDesign extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
         child: ListTile(
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                width: Get.width * 0.65,
+                width: Get.width * 0.58,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Onur Doğan",
+                      widget.ogretmenisim,
                       style: TextStyle(
                         fontWeight: StringDetailConstants.instance.textWeightBold,
                         fontSize: StringDetailConstants.instance.buttonBigSize,
@@ -38,7 +54,7 @@ class CardDesign extends StatelessWidget {
                       height: SizedboxConstans.instance.spaceSmall,
                     ),
                     Text(
-                      "Yazılım Geçerleme ve Sınama",
+                      widget.dersadi,
                       style: TextStyle(
                         fontWeight: StringDetailConstants.instance.textWeightSemiBold,
                         fontSize: StringDetailConstants.instance.textFieldSize,
@@ -47,39 +63,47 @@ class CardDesign extends StatelessWidget {
                     SizedBox(
                       height: SizedboxConstans.instance.spaceSmall / 2,
                     ),
-                    const Text(
-                        "Bu ders içeriğinde bir uygulamanın nasıl yapıldığını göstererek uygulamayı baştan tasarlayarak geliştirme ve pazarlama aşamasına kadar olan süreç anlatılır.")
+                    Text(widget.dersicerigi)
                   ],
                 ),
               ),
-              Column(
-                children: [
-                  Image.asset(
-                    "assets/images/insan.jpg",
-                    fit: BoxFit.cover,
-                    height: 100,
-                  ),
-                  SizedBox(
-                    height: SizedboxConstans.instance.spaceSmall / 2,
-                  ),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                        elevation: MaterialStateProperty.all(3),
-                        backgroundColor: MaterialStateProperty.all(ColorConstants.instance.hippieGreen),
-                        shape:
-                            MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
-                    onPressed: (() {
-                      Get.to(const EnterLesson());
-                    }),
-                    child: Padding(
-                      padding: const EdgeInsets.all(2),
-                      child: Text(
-                        "Katıl",
-                        style: TextStyle(fontSize: Get.width * 0.04, letterSpacing: 2),
+              Align(
+                alignment: Alignment.center,
+                child: Column(
+                  children: [
+                    Image.asset(
+                      "assets/images/insan.png",
+                      fit: BoxFit.cover,
+                      height: 60,
+                    ),
+                    SizedBox(
+                      height: SizedboxConstans.instance.spaceSmall / 2,
+                    ),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                          elevation: MaterialStateProperty.all(3),
+                          backgroundColor: MaterialStateProperty.all(ColorConstants.instance.hippieGreen),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                      onPressed: (() {
+                        Get.to(EnterLesson(
+                          ogretmenadi: widget.ogretmenisim,
+                          dersisim: widget.dersadi,
+                          dersicerigi: widget.dersicerigi,
+                          dersid: widget.dersid,
+                          ogretmenid: widget.ogretmenid,
+                        ));
+                      }),
+                      child: Padding(
+                        padding: const EdgeInsets.all(2),
+                        child: Text(
+                          "Katıl",
+                          style: TextStyle(fontSize: Get.width * 0.04, letterSpacing: 0),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

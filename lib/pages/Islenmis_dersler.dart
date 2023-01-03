@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/view/islene_ders_card.dart';
 
-import '../view/olusturulan_ders_card.dart';
-
 class IslenmisDersler extends StatefulWidget {
   const IslenmisDersler({super.key});
 
@@ -30,6 +28,8 @@ class _IslenmisDerslerState extends State<IslenmisDersler> {
       ),
       body: ListView.builder(
         itemCount: 10,
+        // itemCount: 0,
+
         itemBuilder: (BuildContext context, int index) {
           return const IslenmisDersCArd();
         },

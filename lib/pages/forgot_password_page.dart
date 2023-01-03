@@ -1,11 +1,8 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/alerts/alert_error.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/constants/sizedbox_constants.dart';
-import 'package:ogrenciden_canli_egitim_uygulamasi/pages/forgot_password_check.dart';
-import 'package:ogrenciden_canli_egitim_uygulamasi/pages/new_password_page.dart';
-import 'package:ogrenciden_canli_egitim_uygulamasi/pages/register_check_page.dart';
-import 'package:ogrenciden_canli_egitim_uygulamasi/pages/register_page.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/service/auth_register.dart';
 import 'package:rive/rive.dart';
 
 import '../constants/color_constants.dart';
@@ -24,6 +21,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   final TextEditingController _controllerMail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   bool _butstate = false;
+
+  AuthService authService = AuthService();
 
   @override
   void dispose() {
@@ -65,6 +64,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       if (value == null || value.isEmpty) {
                         return "Mail alanı boş bırakılamaz.";
                       }
+                      if (EmailValidator.validate(value) == false) {
+                        return "Lütfen geçerli bir mail girin.";
+                      }
                       return null;
                     },
                   ),
@@ -84,14 +86,26 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)))),
                       onPressed: (() {
                         if (_formkey.currentState!.validate()) {
+                          print(_controllerMail.text);
                           setState(() {
                             _butstate = true;
                           });
+                          authService.resetPassword(_controllerMail.text).then((value) {
+                            print('oldu');
+                            value;
+                          }).onError((error, stackTrace) {
+                            return showDialog(
+                              context: context,
+                              builder: (context) {
+                                return ErrorMessage(message: error);
+                              },
+                            );
+                          });
                         }
-                        setState(() {
-                          _butstate = true;
-                        });
-                        Get.to(const ForgotPasswordCheck());
+                        // setState(() {
+                        //   _butstate = true;
+                        // });
+                        // Get.to(const ForgotPasswordCheck());
                       }),
                       child: _butstate
                           ? SizedBox(

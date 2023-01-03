@@ -5,9 +5,9 @@ import 'package:ogrenciden_canli_egitim_uygulamasi/constants/build_color.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/constants/color_constants.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/constants/icon_constants.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/pages/home_page.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/pages/intro_page.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/service/auth_register.dart';
 import 'package:ogrenciden_canli_egitim_uygulamasi/service/firebase_options.dart';
-import 'package:ogrenciden_canli_egitim_uygulamasi/pages/intro_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +38,10 @@ class MyApp extends StatelessWidget {
               backgroundColor: Colors.white,
               iconTheme: IconThemeData(
                   color: ColorConstants.instance.hippieGreen, size: IconConstants.instance.appBarIconSize))),
-      home: authService.issignin() == null ? const PageViewDesign() : const HomePage(),
+      home:
+          // const HomePage()
+
+          authService.issignin() == null ? const PageViewDesign() : const HomePage(),
     );
   }
 }

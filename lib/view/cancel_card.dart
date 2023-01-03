@@ -81,9 +81,9 @@ class _CancelCardState extends State<CancelCard> {
               Column(
                 children: [
                   Image.asset(
-                    "assets/images/insan.jpg",
+                    "assets/images/insan.png",
                     fit: BoxFit.cover,
-                    height: 100,
+                    height: 80,
                   ),
                 ],
               ),

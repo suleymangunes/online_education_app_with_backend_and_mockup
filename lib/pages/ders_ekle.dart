@@ -1,14 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ogrenciden_canli_egitim_uygulamasi/pages/register_page.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/pages/home_page.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/service/auth_register.dart';
 import 'package:rive/rive.dart';
+import 'package:uuid/uuid.dart';
 
 import '../constants/color_constants.dart';
-import '../constants/padding_constants.dart';
 import '../constants/sizedbox_constants.dart';
 import '../constants/string_detail_constants.dart';
-import 'forgot_password_page.dart';
-import 'home_page.dart';
 
 class DersEkle extends StatefulWidget {
   const DersEkle({super.key});
@@ -22,6 +22,19 @@ class _DersEkleState extends State<DersEkle> {
   final TextEditingController _controllerMail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   bool _butstate = false;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  AuthService authService = AuthService();
+  String? username;
+
+  @override
+  void initState() {
+    super.initState();
+    authService.username().then((value) {
+      setState(() {
+        username = value.data()?['userName'];
+      });
+    });
+  }
 
   @override
   void dispose() {
@@ -117,13 +130,28 @@ class _DersEkleState extends State<DersEkle> {
                     onPressed: (() {
                       if (_formkey.currentState!.validate()) {
                         setState(() {
+                          var random = const Uuid().v1();
+                          String? id = authService.infouser();
+                          String? name = authService.name();
+                          _firestore.collection('dersler').doc(random).set({
+                            'dersadi': _controllerMail.text,
+                            'dersicerigi': _controllerPassword.text,
+                            'dersalindimi': false,
+                            'ogretmenid': id,
+                            'dersid': random,
+                            'ogretmenisim': username,
+                          }).then((value) {
+                            Get.to(const HomePage());
+                          }).onError((error, stackTrace) {
+                            print('hata oldu');
+                          });
                           _butstate = true;
                         });
                       }
-                      setState(() {
-                        _butstate = true;
-                      });
-                      Get.to(const HomePage());
+                      // setState(() {
+                      //   _butstate = true;
+                      // });
+                      // Get.to(const HomePage());
                     }),
                     child: _butstate
                         ? SizedBox(
@@ -131,7 +159,7 @@ class _DersEkleState extends State<DersEkle> {
                             width: SizedboxConstans.instance.riveWidth,
                             child: const RiveAnimation.asset("assets/gifs/loading.riv"))
                         : Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                             child: Text(
                               "Ders Ekle",
                               style:

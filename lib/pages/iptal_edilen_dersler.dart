@@ -28,6 +28,7 @@ class _IptalEdilenDerslerState extends State<IptalEdilenDersler> {
       ),
       body: ListView.builder(
         itemCount: 10,
+        // itemCount: 0,
         itemBuilder: (BuildContext context, int index) {
           return const CancelCard();
         },

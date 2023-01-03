@@ -47,6 +47,10 @@ dependencies:
   firebase_auth: ^4.2.3
   cloud_firestore: ^4.3.0
   email_validator: ^2.1.17
+  agora_rtc_engine: ^6.1.0
+  permission_handler: ^10.2.0
+  agora_uikit: ^1.1.0
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:
@@ -84,7 +88,7 @@ flutter:
   assets:
     - assets/images/ogrenciden_splash_orta.png
     - assets/images/ogrenciden_logo_png.png
-    - assets/images/insan.jpg
+    - assets/images/insan.png
     - assets/images/live1.jpg
     - assets/images/live2.jpg
     - assets/gifs/education.zip

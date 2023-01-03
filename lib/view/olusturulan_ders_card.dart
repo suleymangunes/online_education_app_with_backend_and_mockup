@@ -1,19 +1,42 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/pages/home_page.dart';
+import 'package:ogrenciden_canli_egitim_uygulamasi/service/auth_register.dart';
 
 import '../constants/color_constants.dart';
 import '../constants/sizedbox_constants.dart';
 import '../constants/string_detail_constants.dart';
-import '../pages/enter_lesson_page.dart';
 
 class OlusturulanDersCard extends StatefulWidget {
-  const OlusturulanDersCard({super.key});
+  const OlusturulanDersCard({
+    super.key,
+    required this.dersicerigi,
+    required this.dersadi,
+    required this.dersid,
+    required this.ogretmenadi,
+    required this.ogretmenid,
+  });
 
+  final String dersicerigi;
+  final String dersadi;
+  final String dersid;
+  final String ogretmenadi;
+  final String ogretmenid;
   @override
   State<OlusturulanDersCard> createState() => _OlusturulanDersCardState();
 }
 
 class _OlusturulanDersCardState extends State<OlusturulanDersCard> {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  AuthService authService = AuthService();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -32,7 +55,7 @@ class _OlusturulanDersCardState extends State<OlusturulanDersCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Onur Doğan",
+                      widget.ogretmenadi,
                       style: TextStyle(
                         fontWeight: StringDetailConstants.instance.textWeightBold,
                         fontSize: StringDetailConstants.instance.buttonBigSize,
@@ -42,7 +65,7 @@ class _OlusturulanDersCardState extends State<OlusturulanDersCard> {
                       height: SizedboxConstans.instance.spaceSmall,
                     ),
                     Text(
-                      "Yazılım Geçerleme ve Sınama",
+                      widget.dersadi,
                       style: TextStyle(
                         fontWeight: StringDetailConstants.instance.textWeightSemiBold,
                         fontSize: StringDetailConstants.instance.textFieldSize,
@@ -51,17 +74,16 @@ class _OlusturulanDersCardState extends State<OlusturulanDersCard> {
                     SizedBox(
                       height: SizedboxConstans.instance.spaceSmall / 2,
                     ),
-                    const Text(
-                        "Bu ders içeriğinde bir uygulamanın nasıl yapıldığını göstererek uygulamayı baştan tasarlayarak geliştirme ve pazarlama aşamasına kadar olan süreç anlatılır.")
+                    Text(widget.dersicerigi)
                   ],
                 ),
               ),
               Column(
                 children: [
                   Image.asset(
-                    "assets/images/insan.jpg",
+                    "assets/images/insan.png",
                     fit: BoxFit.cover,
-                    height: 100,
+                    height: 80,
                   ),
                   SizedBox(
                     height: SizedboxConstans.instance.spaceSmall / 2,
@@ -72,7 +94,59 @@ class _OlusturulanDersCardState extends State<OlusturulanDersCard> {
                         backgroundColor: MaterialStateProperty.all(ColorConstants.instance.crimson),
                         shape:
                             MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
-                    onPressed: (() {}),
+                    onPressed: (() {
+                      firestore.collection('dersler').doc(widget.dersid).delete().then((value) {
+                        return showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) {
+                            return Dialog(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Text(
+                                      'Ders Kaldırıldı!',
+                                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                                    ),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    const Text(
+                                      'Dersi kaldırma işlemi başarılı.',
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                          elevation: MaterialStateProperty.all(3),
+                                          backgroundColor:
+                                              MaterialStateProperty.all(ColorConstants.instance.hippieGreen),
+                                          shape: MaterialStateProperty.all(
+                                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                                      onPressed: (() {
+                                        setState(() {});
+                                        Get.to(const HomePage());
+                                      }),
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(2),
+                                        child: Text(
+                                          'Tamam',
+                                          style: TextStyle(fontSize: 15, letterSpacing: 1),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      });
+                    }),
                     child: Padding(
                       padding: const EdgeInsets.all(2),
                       child: Text(

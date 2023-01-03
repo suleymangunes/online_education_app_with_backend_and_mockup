@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../constants/color_constants.dart';
 import '../constants/sizedbox_constants.dart';
 import '../constants/string_detail_constants.dart';
-import '../pages/enter_lesson_page.dart';
 
 class IslenmisDersCArd extends StatefulWidget {
   const IslenmisDersCArd({super.key});
@@ -12,6 +11,7 @@ class IslenmisDersCArd extends StatefulWidget {
   @override
   State<IslenmisDersCArd> createState() => _IslenmisDersCArdState();
 }
+//state management
 
 class _IslenmisDersCArdState extends State<IslenmisDersCArd> {
   @override
@@ -57,9 +57,9 @@ class _IslenmisDersCArdState extends State<IslenmisDersCArd> {
                 ),
               ),
               Image.asset(
-                "assets/images/insan.jpg",
+                "assets/images/insan.png",
                 fit: BoxFit.cover,
-                height: 100,
+                height: 80,
               ),
             ],
           ),

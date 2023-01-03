@@ -41,7 +41,7 @@ class _CanliYayinState extends State<CanliYayin> {
                   color: ColorConstants.instance.hippieGreenLight4x,
                   height: Get.width * 9 / 18,
                   width: Get.width,
-                  child: Image.asset("assets/images/live2.jpg"),
+                  child: Image.asset("assets/images/live2.png"),
                 ),
                 Positioned(
                   bottom: Get.width * 0.01,
